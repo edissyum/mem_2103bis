@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <signatoryBookEnabled>maarchParapheur</signatoryBookEnabled>
+    <signatoryBook>
+        <id>maarchParapheur</id>
+        <userId>ccornillac@maarch.com</userId>
+        <password>maarch</password>
+        <url>https://demo.maarchparapheur.com/</url>
+    </signatoryBook>
+    <signatoryBook>
+        <id>ixbus</id>
+        <tokenAPI></tokenAPI>
+        <url></url>
+        <autoSelectModelRules> <!-- EDISSYUM - NCH01 IXBUS : Selection automatique du modèle de circuit -->
+            <rules>
+                <type>text</type> <!-- text ou database -->
+                <value></value> <!-- La casse est importante -->
+            </rules>
+            <rules>
+                <type>database</type> <!-- text ou database -->
+                <select>item_id</select> <!-- Une seule valeur seulement -->
+                <table>listinstance, users</table> <!-- Si plusieurs tables, séparez par des virgules -->
+                <left_join>listinstance.item_id = users.id</left_join>
+                <where>item_mode = 'sign' AND difflist_type = 'VISA_CIRCUIT'</where>
+                <res_id_column>res_id</res_id_column> <!-- Nom de la colonne correspondant dans la table où est stocké le res_id du document courant -->
+            </rules>
+        </autoSelectModelRules> <!-- END EDISSYUM - NCH01 -->
+    </signatoryBook>
+    <signatoryBook>
+        <id>iParapheur</id>
+        <userId></userId>
+        <password></password>
+        <url>https://secure-iparapheur-partenaires.libriciel.fr/ws-iparapheur</url>
+        <certPath>/var/www/html/maarchdev/modules/visa/xml/serveur_iparapheur.demonstrations.adullact.org.pem</certPath>
+        <certPass></certPass>
+        <certType>pem</certType>
+        <defaultType>Courrier</defaultType>
+        <defaultSousType>signature via service achat</defaultSousType>
+        <errorCode>KO</errorCode>
+        <visaState>Vise</visaState>
+        <signState>Signe</signState>
+        <refusedVisa>RejetVisa</refusedVisa>
+        <refusedSign>RejetSignataire</refusedSign>
+    </signatoryBook>
+    <signatoryBook>
+        <id>fastParapheur</id>
+        <subscriberId></subscriberId>
+        <url>https://demo-parapheur.dfast.fr/parapheur-soap/soap/v1/Documents?wsdl</url>
+        <certPath>/var/www/html/maarchdev/modules/visa/xml/92091.p12</certPath>
+        <certPass></certPass>
+        <certType>P12</certType>
+        <validatedState>Signé</validatedState>
+        <refusedState>Refusé</refusedState>
+    </signatoryBook>
+    <!--  EDISSYUM - PYB01 Ajout du connecteur Blueway -->
+    <signatoryBook>
+        <id>blueway</id>
+        <customId>maarch</customId> <!-- custom of the instance -->
+        <ixbusDirectConnection>true</ixbusDirectConnection> <!-- use blueway (false) or directly connect to ixbus (true) -->
+        <url>https://demodemat.ixbus.net/</url> <!-- if blueway is used the url must end with /PortailJSON? -->
+        <customOrganization>7</customOrganization> <!-- id of the custom field in maarch used to select one  organization or another -->
+        <defaultOrganization>1</defaultOrganization> <!-- -->
+        <organization>
+            <id>1</id>
+            <organizationName>LABEL ITEM 1</organizationName> <!-- must coincide with the label of the custom field -->
+            <tokenAPI></tokenAPI>
+            <defaultNature>Documents divers</defaultNature> <!-- default ixbus nature -->
+        </organization>
+        <!-- if needed add more organiations
+        <organization>
+            <id>2</id>
+            <organizationName>LABEL ITEM 2</organizationName>
+            <tokenAPI></tokenAPI>
+            <defaultNature>Flux comptables</defaultNature>
+        </organization>
+        -->
+    </signatoryBook>
+    <!-- END EDISSYUM - PYB01 -->
+    <!-- EDISSYUM - PYB01 Ajout du connecteur Pastell -->
+    <signatoryBook>
+        <id>pastell</id>
+        <url></url>
+        <userId></userId>
+        <password></password>
+        <entite></entite>
+        <pastellType></pastellType> <!-- type de document pastell lors de la création du dossier -->
+        <defaultType></defaultType> <!-- type de document iparapheur -->
+        <defaultSousType></defaultSousType> <!-- sous-type de document iparapheur par défaut si le user_id du signataire n'existe pas -->
+        <visaState>Vise</visaState>
+        <signState>recu-iparapheur</signState>
+        <refusedVisa>rejet-iparapheur</refusedVisa>
+        <refusedSign>rejet-iparapheur</refusedSign>
+        <metadata>
+            <rules>
+                <pastell_field>bureau</pastell_field>
+                <type>database</type> <!-- text ou database -->
+                <select>users.external_id#>>'{"iparapheur"}' as iparapheur_id</select> <!-- Une seule valeur seulement -->
+                <column>iparapheur_id</column>
+                <table>listinstance, users</table> <!-- Si plusieurs tables, séparez par des virgules -->
+                <left_join>listinstance.item_id = users.id</left_join>
+                <where>item_mode = 'sign' AND difflist_type = 'VISA_CIRCUIT'</where>
+                <res_id_column>res_id</res_id_column> <!-- Nom de la colonne correspondant dans la table où est stocké le res_id du document courant -->
+            </rules>
+            <rules>
+                <pastell_field></pastell_field>
+                <type>database</type>
+                <!-- text ou database -->
+                <select>item_id</select>
+                <!-- Une seule valeur seulement -->
+                <column>item_id</column>
+                <table>listinstance, users</table>
+                <!-- Si plusieurs tables, séparez par des virgules -->
+                <left_join>listinstance.item_id = users.id</left_join>
+                <where>item_mode = 'sign' AND difflist_type = 'VISA_CIRCUIT'</where>
+                <res_id_column>res_id</res_id_column>
+                <!-- Nom de la colonne correspondant dans la table où est stocké le res_id du document courant -->
+            </rules>
+        </metadata>
+        <preActions> <!-- action pastell modifiable par le client, permet d'envoyer le dossier pastell -> iparapheur -->
+            <action>orientation</action>
+            <action>send-iparapheur</action>
+        </preActions>
+        <postActions> <!-- action pastell modifiable par le client, permet de cloturer le dossier après récupération de la réponse signée dans pastell -->
+        </postActions>
+    </signatoryBook>
+    <!-- END EDISSYUM - PYB01 -->
+    <signatoryBook>
+        <id>xParaph</id>
+        <url>https://preprodssl.ssl.spl-xdemat.fr/Xparaph/wsdl/wsdl.php</url>
+        <userGeneric>
+            <siret></siret>
+            <login></login>
+            <password></password>
+        </userGeneric>
+        <docutype>101</docutype>
+        <docustype>9</docustype>
+    </signatoryBook>
+</root>

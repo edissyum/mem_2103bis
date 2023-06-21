@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ROOT>
+    <SETTINGS>
+        <apiUrl></apiUrl>
+        <apiKey></apiKey>
+        <memSuperUserId></memSuperUserId>
+        <minDepotInMinutes>60</minDepotInMinutes>
+        <externalIdValue>eCitiz</externalIdValue>
+        <etatDemande>SAISIE_TERMINEE</etatDemande>
+        <getDemandeApi>/ws/gn/api/v1/demandes</getDemandeApi>
+        <sendEmailApi>/ws/gn/api/v1/demande/mail</sendEmailApi>
+        <sendNotesApi>/ws/gn/api/v1/demande/commentaire</sendNotesApi>
+        <updateStatusApi>/ws/gn/api/v1/demande/status</updateStatusApi>
+        <getDemandePiecesApi>/ws/gn/api/v1/demandesPieces</getDemandePiecesApi>
+    </SETTINGS>
+    <MEM_DATA>
+        <status>NEW</status>
+        <model_id>1</model_id>
+        <destination>3</destination>
+        <priority>poiuytre1357nbvc</priority>
+        <autres_infos_custom_id>3</autres_infos_custom_id> <!-- Identifiant du champs personnalisé pour contenir les autres informations relatives à la demande (STRING) -->
+        <domaine_custom_id>4</domaine_custom_id> <!-- Identifiant du champs personnalisé pour contenir le libelleDomaine (STRING) -->
+        <theme_custom_id>5</theme_custom_id> <!-- Identifiant du champs personnalisé pour contenir le libelleTheme (STRING) -->
+        <sous_theme_custom_id>8</sous_theme_custom_id> <!-- Identifiant du champs personnalisé pour contenir le codeSousTheme. Ne pas afficher dans formulaire, champ technique (STRING) -->
+        <label_sous_theme_custom_id>7</label_sous_theme_custom_id> <!-- Identifiant du champs personnalisé pour contenir le libelleSousTheme (STRING) -->
+        <pj_justificative_type>simple_attachment</pj_justificative_type> <!-- Type de pièces jointes MEM pour les pièces justificatives -->
+        <pj_instructions_type>instructions</pj_instructions_type> <!-- Type de pièces jointes MEM pour les pièces d'instructions -->
+        <nature_custom_id>1</nature_custom_id> <!-- Identifiant du champs personnalisé pour contenir la nature. Table de correspondance associée également (STRING) -->
+        <nature_correspondances>
+            <ENTRY>
+                <ECITIZ>DEMANDE</ECITIZ>
+                <MEM>Email</MEM>
+            </ENTRY>
+            <ENTRY>
+                <ECITIZ>REMERCIEMENT</ECITIZ>
+                <MEM>Remerciement</MEM>
+            </ENTRY>
+            <ENTRY>
+                <ECITIZ>DOCUMENT COURANT</ECITIZ>
+                <MEM>Document courant</MEM>
+            </ENTRY>
+            <ENTRY>
+                <ECITIZ>DEMANDE CABINET</ECITIZ>
+                <MEM>Demande cabinet</MEM>
+            </ENTRY>
+        </nature_correspondances>
+        <type_id_correspondances>
+            <ENTRY>
+                <ECITIZ>TEL</ECITIZ>
+                <MEM>1204</MEM>
+            </ENTRY>
+            <ENTRY>
+                <ECITIZ>GUICH</ECITIZ>
+                <MEM>1205</MEM>
+            </ENTRY>
+            <ENTRY>
+                <ECITIZ>INT</ECITIZ>
+                <MEM>1205</MEM>
+            </ENTRY>
+            <ENTRY>
+                <ECITIZ>RES_SOC</ECITIZ>
+                <MEM>1205</MEM>
+            </ENTRY>
+        </type_id_correspondances>
+    </MEM_DATA>
+    <CONTACT_DATA>
+        <civility_correspondances>
+            <ENTRY>
+                <ECITIZ>M</ECITIZ>
+                <MEM>1</MEM>
+            </ENTRY>
+            <ENTRY>
+                <ECITIZ>MME</ECITIZ>
+                <MEM>2</MEM>
+            </ENTRY>
+        </civility_correspondances>
+        <titre_custom_id>32</titre_custom_id>
+        <service_custom_id>28</service_custom_id>
+        <siret_custom_id>31</siret_custom_id>
+        <rna_custom_id>33</rna_custom_id>
+    </CONTACT_DATA>
+    <STATUS>
+        <ENTRY> <!-- MAUVAISE ORIENTATION | INUTILE POUR L'INSTANT -->
+            <MEM>BAD</MEM>
+            <ECITIZ>SAISIE_TERMINE</ECITIZ>
+            <SENDMAIL>0</SENDMAIL> <!-- 0 = false, 1 = true Si le status nécessite une génération de mail côté e-Citiz -->
+            <SENDNOTES>0</SENDNOTES> <!-- 0 = false, 1 = true Si le status nécessite l'envoi des notes MEM dans e-Citiz -->
+            <SENDLASTSIGNEDATTACH>0</SENDLASTSIGNEDATTACH> <!-- 0 == false, 1 == true Si le status nécessite l'envoi de la dernière PJ signée (SENDNOTES doit être activé) -->
+        </ENTRY>
+        <ENTRY> <!-- SANS SUITE -->
+            <MEM>SSUITE</MEM>
+            <ECITIZ>CLOTUREE</ECITIZ>
+            <SENDMAIL>1</SENDMAIL> <!-- 0 = false, 1 = true Si le status nécessite une génération de mail côté e-Citiz -->
+            <SENDNOTES>1</SENDNOTES> <!-- 0 = false, 1 = true Si le status nécessite l'envoi des notes MEM dans e-Citiz -->
+            <SENDLASTSIGNEDATTACH>0</SENDLASTSIGNEDATTACH> <!-- 0 == false, 1 == true Si le status nécessite l'envoi de la dernière PJ signée (SENDNOTES doit être activé) -->
+        </ENTRY>
+        <ENTRY>  <!-- INCOMPLETE | INUTILE POUR L'INSTANT -->
+            <MEM>INCOMP</MEM>
+            <ECITIZ>DEMANDE_DE_COMPLEMENT</ECITIZ>
+            <SENDMAIL>0</SENDMAIL> <!-- 0 = false, 1 = true Si le status nécessite une génération de mail côté e-Citiz -->
+            <SENDNOTES>0</SENDNOTES> <!-- 0 = false, 1 = true Si le status nécessite l'envoi des notes MEM dans e-Citiz -->
+            <SENDLASTSIGNEDATTACH>0</SENDLASTSIGNEDATTACH> <!-- 0 == false, 1 == true Si le status nécessite l'envoi de la dernière PJ signée (SENDNOTES doit être activé) -->
+        </ENTRY>
+        <ENTRY> <!-- REFUS -->
+            <MEM>REFUS</MEM>
+            <ECITIZ>REFUSEE</ECITIZ>
+            <SENDMAIL>0</SENDMAIL> <!-- 0 = false, 1 = true Si le status nécessite une génération de mail côté e-Citiz -->
+            <SENDNOTES>0</SENDNOTES> <!-- 0 = false, 1 = true Si le status nécessite l'envoi des notes MEM dans e-Citiz -->
+            <SENDLASTSIGNEDATTACH>0</SENDLASTSIGNEDATTACH> <!-- 0 == false, 1 == true Si le status nécessite l'envoi de la dernière PJ signée (SENDNOTES doit être activé) -->
+        </ENTRY>
+        <ENTRY> <!-- CONFORME -->
+            <MEM>VAL</MEM>
+            <ECITIZ>DEMANDE_CONFORME</ECITIZ>
+            <SENDMAIL>1</SENDMAIL> <!-- 0 = false, 1 = true Si le status nécessite une génération de mail côté e-Citiz -->
+            <SENDNOTES>0</SENDNOTES> <!-- 0 = false, 1 = true Si le status nécessite l'envoi des notes MEM dans e-Citiz -->
+            <SENDLASTSIGNEDATTACH>0</SENDLASTSIGNEDATTACH> <!-- 0 == false, 1 == true Si le status nécessite l'envoi de la dernière PJ signée (SENDNOTES doit être activé) -->
+        </ENTRY>
+        <ENTRY> <!-- INCOMPLETE | INUTILE POUR L'INSTANT -->
+            <MEM>VAL_COMP</MEM>
+            <ECITIZ>DEMANDE_DE_COMPLEMENT</ECITIZ>
+            <SENDMAIL>0</SENDMAIL> <!-- 0 = false, 1 = true Si le status nécessite une génération de mail côté e-Citiz -->
+            <SENDNOTES>0</SENDNOTES> <!-- 0 = false, 1 = true Si le status nécessite l'envoi des notes MEM dans e-Citiz -->
+            <SENDLASTSIGNEDATTACH>0</SENDLASTSIGNEDATTACH> <!-- 0 == false, 1 == true Si le status nécessite l'envoi de la dernière PJ signée (SENDNOTES doit être activé) -->
+        </ENTRY>
+        <ENTRY> <!-- CONFORME MAIS REFUS ENGAGEANT -->
+            <MEM>VAL_KO_ENGAG</MEM>
+            <ECITIZ>REFUSEE</ECITIZ>
+            <SENDMAIL>1</SENDMAIL> <!-- 0 = false, 1 = true Si le status nécessite une génération de mail côté e-Citiz -->
+            <SENDNOTES>1</SENDNOTES> <!-- 0 = false, 1 = true Si le status nécessite l'envoi des notes MEM dans e-Citiz -->
+            <SENDLASTSIGNEDATTACH>1</SENDLASTSIGNEDATTACH> <!-- 0 == false, 1 == true Si le status nécessite l'envoi de la dernière PJ signée (SENDNOTES doit être activé) -->
+        </ENTRY>
+        <ENTRY> <!-- CONFORME MAIS REFUS NON ENGAGEANT -->
+            <MEM>VAL_KO_NENGAG</MEM>
+            <ECITIZ>REFUSEE</ECITIZ>
+            <SENDMAIL>1</SENDMAIL> <!-- 0 = false, 1 = true Si le status nécessite une génération de mail côté e-Citiz -->
+            <SENDNOTES>1</SENDNOTES> <!-- 0 = false, 1 = true Si le status nécessite l'envoi des notes MEM dans e-Citiz -->
+            <SENDLASTSIGNEDATTACH>1</SENDLASTSIGNEDATTACH> <!-- 0 == false, 1 == true Si le status nécessite l'envoi de la dernière PJ signée (SENDNOTES doit être activé) -->
+        </ENTRY>
+        <ENTRY> <!-- CONFORME ET VALIDE ENGAGEANT -->
+            <MEM>VAL_OK_ENGAG</MEM>
+            <ECITIZ>VALIDEE</ECITIZ>
+            <SENDMAIL>1</SENDMAIL> <!-- 0 = false, 1 = true Si le status nécessite une génération de mail côté e-Citiz -->
+            <SENDNOTES>1</SENDNOTES> <!-- 0 = false, 1 = true Si le status nécessite l'envoi des notes MEM dans e-Citiz -->
+            <SENDLASTSIGNEDATTACH>1</SENDLASTSIGNEDATTACH> <!-- 0 == false, 1 == true Si le status nécessite l'envoi de la dernière PJ signée (SENDNOTES doit être activé) -->
+        </ENTRY>
+        <ENTRY> <!-- CONFORME ET VALIDE NON ENGAGEANT -->
+            <MEM>VAL_OK_NENGAG</MEM>
+            <ECITIZ>VALIDEE</ECITIZ>
+            <SENDMAIL>1</SENDMAIL> <!-- 0 = false, 1 = true Si le status nécessite une génération de mail côté e-Citiz -->
+            <SENDNOTES>1</SENDNOTES> <!-- 0 = false, 1 = true Si le status nécessite l'envoi des notes MEM dans e-Citiz -->
+            <SENDLASTSIGNEDATTACH>1</SENDLASTSIGNEDATTACH> <!-- 0 == false, 1 == true Si le status nécessite l'envoi de la dernière PJ signée (SENDNOTES doit être activé) -->
+        </ENTRY>
+    </STATUS>
+</ROOT>

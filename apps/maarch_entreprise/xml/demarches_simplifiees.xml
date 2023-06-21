@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ROOT>
+    <AUTHENTIFICATION>
+        <maarchUserWsLogin></maarchUserWsLogin>
+        <maarchUserWsPassword></maarchUserWsPassword>
+        <adullactToken></adullactToken>
+        <adullactUrl></adullactUrl> <!-- ex : http://localhost:3000/api/v2/graphql/ -->
+    </AUTHENTIFICATION>
+    <SETTINGS>
+        <doctype></doctype>
+        <destination></destination>
+        <statusConstruction></statusConstruction>
+        <statusInstruction></statusInstruction>
+        <statusAccepte></statusAccepte>
+        <statusRefuse></statusRefuse>
+        <statusSansSuite></statusSansSuite>
+        <priority></priority>
+        <modelId></modelId>
+        <typist></typist>
+    </SETTINGS>
+    <MAARCH>
+        <demandeurCustomId></demandeurCustomId>
+        <instructeurCustomId></instructeurCustomId>
+    </MAARCH>
+</ROOT>

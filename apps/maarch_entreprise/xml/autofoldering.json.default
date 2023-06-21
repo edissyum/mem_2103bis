@@ -1,0 +1,25 @@
+{
+    "enabled": false,
+    "treeSetup": {
+        "userAutoFoldering": "",
+        "edition": false,
+        "visibility": {
+            "public": true,
+            "entities": "ALL_ENTITIES"
+        },
+        "levels": "1",
+        "nodes" : [
+            {
+                "nodeTargetTable" : "res_view_letterbox",
+                "nodeTargetColumn" : "creation_date",s
+                "nodeDataType": "date",
+                "dateFormat": "yyyy/mm/dd",
+                "nodeClause": "creation_date between '2010-01-01' and '2022-12-20'" ,
+                "nodeOrderBy": null,
+                "level": 0,
+                "displayDocs": false,
+                "displayDocsClause": null
+            }
+        ]
+    }
+}

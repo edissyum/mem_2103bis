@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fichier DEPRECATED : sera supprimé dans la prochaine version -->
+<ROOT>
+    <java>
+        <enabled>true</enabled>
+    </java>
+    <onlyoffice>
+        <enabled>true</enabled>
+        <server_uri>onlyoffice.maarchcourrier.com</server_uri>
+        <server_port>443</server_port>
+        <server_ssl>true</server_ssl>
+        <server_secret></server_secret>
+        <server_authorization_header>Authorization</server_authorization_header>
+    </onlyoffice>
+    <collaboraonline>
+        <enabled>false</enabled>
+        <server_uri>collaboraonline.maarchcourrier.com</server_uri>
+        <server_port>9980</server_port>
+        <server_ssl>false</server_ssl>
+    </collaboraonline>
+</ROOT>

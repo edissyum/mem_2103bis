@@ -1,0 +1,35 @@
+<form [formGroup]="documentFinalAction" style="display: contents;">
+    <mat-form-field appearance="outline">
+        <mat-label>{{'lang.bindingDocumentFinalAction' | translate}}</mat-label>
+        <mat-select formControlName="bindingDocumentFinalAction" id="bindingDocumentFinalAction"
+        name="bindingDocumentFinalAction"
+        title="{{'lang.bindingDocumentFinalAction' | translate}}">
+            <mat-option *ngFor="let item of finalActionValues" [value]="item">
+                {{ 'lang.' + item | translate}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <br>
+    
+    <mat-form-field appearance="outline">
+        <mat-label>{{'lang.nonBindingDocumentFinalAction' | translate}}</mat-label>
+        <mat-select formControlName="nonBindingDocumentFinalAction" id="nonBindingDocumentFinalAction"
+        name="nonBindingDocumentFinalAction" 
+        title="{{'lang.nonBindingDocumentFinalAction' | translate}}">
+            <mat-option *ngFor="let item of finalActionValues" [value]="item">
+                {{ 'lang.' + item | translate}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
+<app-maarch-message *ngIf="isSae" [mode]="'info'">
+    <div [innerHTML]="'lang.interconnectionTest' | translate"></div>
+    <button mat-raised-button [disabled]="loading" (click)="checkInterconnection()"
+        color="primary" [title]="'lang.startTest' | translate">
+        <mat-icon inline="true" color="basic" class="fas fa-plug" style="margin-bottom: 5px; margin-right: 5px;">
+        </mat-icon>
+        {{'lang.startTest' | translate}}
+    </button>
+</app-maarch-message>
+<app-maarch-message *ngIf="!functions.empty(result)" [mode]="hasError ? 'danger' : 'success'" [content]="result"></app-maarch-message>

@@ -1,0 +1,606 @@
+Array
+(
+    [values] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [values] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+            [1] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+            [1] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => contactCustomField_8
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)
+Array
+(
+    [0] => 1=?
+)
+Array
+(
+    [0] => 1
+)
+Array
+(
+    [0] => custom_fields->>'8' in (?)
+)
+Array
+(
+    [0] => Array
+        (
+            [0] => oui
+        )
+
+)

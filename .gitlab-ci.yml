@@ -1,0 +1,214 @@
+variables:
+  POSTGRES_DB: "MaarchCourrier"
+  POSTGRES_USER: maarch
+  POSTGRES_PASSWORD: ""
+
+stages:
+  - sync
+  - test
+  - deploy
+
+before_script:
+  - apt-get update -yqq > /dev/null
+  - mkdir -p /usr/share/man/man1
+  - mkdir -p /usr/share/man/man7
+  #- apt-get install apt-utils -yqq > /dev/null
+  - apt-get install cron -yqq > /dev/null
+  #- apt-get install tar -yqq > /dev/null
+  #- apt-get install wkhtmltopdf -yqq > /dev/null
+  #- apt-get install wget -yqq > /dev/null
+  #- wget https://downloads.wkhtmltopdf.org/0.12/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
+  #- tar xvf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
+  #- mv wkhtmltox/bin/wkhtmlto* /usr/bin
+  #- chmod +x /usr/bin/wkhtmlto*
+  #- apt-get install libreoffice -yqq > /dev/null 
+  - apt-get install git -yqq > /dev/null
+  - bash ci/docker_install_php.sh > /dev/null
+  - bash ci/docker_install_database.sh > /dev/null
+  - mkdir -p /opt/maarch/docservers/indexes/{letterbox_coll,attachments_coll,version_attachments_coll}
+  - mkdir -p /opt/maarch/docservers/{ai,resources,attachments,templates,acknowledgement_receipts}
+  - mkdir -p /opt/maarch/docservers/{convert_attachments,convert_resources}
+  - mkdir -p /opt/maarch/docservers/{fulltext_attachments,fulltext_resources}
+  - mkdir -p /opt/maarch/docservers/{thumbnails_attachments,thumbnails_resources}
+  - mkdir -p /var/www/html/
+  - ln -s $CI_PROJECT_DIR /var/www/html/MaarchCourrier
+  - cd /var/www/html/MaarchCourrier
+  - sed 's/127.0.0.1/postgres/' apps/maarch_entreprise/xml/config.json.default > apps/maarch_entreprise/xml/config.json
+  - sed -i 's/\"lockAdvancedPrivileges\"\ \:\ true/\"lockAdvancedPrivileges\"\ \:\ false/' apps/maarch_entreprise/xml/config.json
+  - cp modules/visa/xml/remoteSignatoryBooks.xml.default modules/visa/xml/remoteSignatoryBooks.xml
+  - apt-get install -yqq openjdk-11-jdk > /dev/null
+  - sed -i 's/rights="none" pattern="PDF"/rights="read | write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+
+job_e2e:
+ image: php:7.4-apache
+ stage: test
+ services:
+   - name: postgres:10.1
+     command: [ "-c", "datestyle=iso,dmy" ]
+ script:
+   - apt-get install -yqq libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+   - service apache2 start
+   - touch installed.lck
+   - chown -R www-data. /opt/maarch/
+   - chown -R www-data. /var/www/html/
+   - chmod -R 775 /opt/maarch/
+   - chmod -R 775 /var/www/html/
+   - curl -sL https://deb.nodesource.com/setup_14.x | bash - > /dev/null
+   - apt-get install -yqq nodejs > /dev/null
+   - npm install npm@6.14.5 -g 
+   - node -v
+   - npm set registry https://registry.npmjs.org/ 
+   - npm install > /dev/null
+   - npm run build-prod
+   - curl -o /dev/null --silent --head --write-out '%{http_code}\n' http://127.0.0.1/MaarchCourrier
+   - sed -i 's~https://preview.maarchcourrier.com~http://127.0.0.1/MaarchCourrier~' /var/www/html/MaarchCourrier/test/e2e/cypress-config.json
+   - npm run cypress:run
+ artifacts:
+   paths:
+     - queries_error.log
+     - test/e2e/output/
+   expire_in: 2 days
+   when: always
+ only:
+   - schedules
+
+job_php-7.4:
+ image: php:7.4-apache
+ stage: test
+ services:
+   - name: postgres:10.1
+     command: [ "-c", "datestyle=iso,dmy" ]
+ script:
+   - curl --location -s --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-9.phar
+   - chmod +x /usr/local/bin/phpunit
+   - phpunit --coverage-text --colors=never
+ only:
+   - develop
+ except:
+   - schedules
+ artifacts:
+   paths:
+     - test/unitTests/build/
+   expire_in: 2h
+
+job_php-7.3:
+ image: php:7.3-apache
+ stage: test
+ services:
+   - name: postgres:10.1
+     command: [ "-c", "datestyle=iso,dmy" ]
+ script:
+   - curl --location -s --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-9.phar
+   - chmod +x /usr/local/bin/phpunit
+   - phpunit --coverage-text --colors=never
+ only:
+   - develop
+ except:
+   - schedules
+
+logs:
+  image: debian:10-slim
+  stage: sync
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "master" && $CI_PIPELINE_SOURCE != "schedule" && $CI_PIPELINE_SOURCE != "merge_request_event" && $CI_COMMIT_TAG =~ "/^$/"'
+  before_script:
+    - apt-get update -y
+    - apt install -y curl
+  script:
+    - |
+      if [[ $CI_COMMIT_MESSAGE == "FEAT"* ]]; then \
+        ISSUE_ID=`echo $CI_COMMIT_MESSAGE | grep -o 'FEAT \#[0-9]*' | grep -o '[0-9]*'`; \
+        echo "found FEAT !"; \
+      else \
+        if [[ $CI_COMMIT_MESSAGE == "FIX"* ]]; then \
+          ISSUE_ID=`echo $CI_COMMIT_MESSAGE | grep -o 'FIX \#[0-9]*' | grep -o '[0-9]*'`; \
+          echo "found FIX !"; \
+        else \
+          echo "no FEAT or FIX found :("; \
+          exit 0; \
+        fi; \
+      fi
+    - echo $ISSUE_ID
+    - NOTE_MESSAGE="Commit ajouté sur la branche **$CI_COMMIT_REF_NAME** de **$CI_PROJECT_NAME** par $CI_COMMIT_AUTHOR"
+    - COMMIT_URL="$CI_PROJECT_URL/commit/$CI_COMMIT_SHA"
+    - echo $NOTE_MESSAGE
+    - echo "$CI_COMMIT_MESSAGE"
+    - CI_COMMIT_MESSAGE=$(echo $CI_COMMIT_MESSAGE) # Remove the line returns
+    - echo "$CI_COMMIT_MESSAGE"
+    - echo $COMMIT_URL
+    - NOTE="$NOTE_MESSAGE \n $CI_COMMIT_MESSAGE \n $COMMIT_URL"
+    - echo "$NOTE"
+    - BODY="{\"issue\":{\"notes\":\"$NOTE\",\"private_notes\":false}}"
+    - echo "$BODY"
+    - curl -v -H 'Content-Type:application/json' -H "X-Redmine-API-Key:$REDMINE_API_KEY" -d "$BODY" -X PUT https://forge.maarch.org/issues/$ISSUE_ID.json
+
+new_branch:
+  image: debian:10-slim
+  stage: sync
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /(feat|fix)\/[0-9]{4,5}\//'
+  before_script:
+    # Install git and curl command
+    - apt-get update -yqq > /dev/null
+    - apt install -y curl
+    - apt install -y jq
+  script:
+    - chmod +x ./ci/create_mr.sh
+    - ./ci/create_mr.sh
+
+new_tag:
+  image: debian:10-slim
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_TAG
+  before_script:
+    # Install git and curl command
+    - apt-get update -yqq > /dev/null
+    - 'which ssh-agent || ( apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan "$GITLAB_URL" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
+    - apt install -y git
+    - apt install -y curl
+    - apt install -y jq
+  script:
+    - chmod +x ./ci/new_tag.sh
+    - ./ci/new_tag.sh
+
+
+mr_end:
+  image: debian:10-slim
+  stage: sync
+  # only:
+  #  - merge_requests
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^Merge branch/'
+  before_script:
+    # Install git and curl command
+    - apt-get update -yqq > /dev/null
+    - apt install -y git
+    - apt install -y curl
+    - apt install -y jq
+  script:
+    - chmod +x ./ci/mr_end.sh
+    - ./ci/mr_end.sh
+
+
+#pages:
+#  stage: deploy
+#  dependencies:
+#    - job_php-7.4
+#  before_script:
+#    - pwd
+#  script:
+#    - mv test/unitTests/build/ public/
+#  artifacts:
+#    paths:
+#      - public
+#    expire_in: 1 day
+#  only:
+#    - develop

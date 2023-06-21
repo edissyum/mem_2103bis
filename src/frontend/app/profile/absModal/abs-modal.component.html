@@ -1,0 +1,49 @@
+<div class="mat-dialog-content-container">
+    <h1 mat-dialog-title>{{'lang.activateMyAbs' | translate}}</h1>
+    <div mat-dialog-content style="display: flex; flex-direction: column;">
+        <div *ngIf="loading" class="loading" style="display:flex;height:100%;">
+            <mat-spinner style="margin:auto;"></mat-spinner>
+        </div>
+        <h5 mat-subheader>{{'lang.basketsToRedirect' | translate}}</h5>
+        <mat-list style="flex: 1; overflow: auto;">
+            <mat-list-item >
+                <mat-icon mat-list-icon style="display: flex;align-items: center;justify-content: center;">
+                    <mat-checkbox color="primary" (change)="toggleAll()" [indeterminate]="oneOrMoreSelected()" [checked]="allSelected()"></mat-checkbox>
+                </mat-icon>
+                <div mat-line style="cursor:pointer;font-size: 12px;font-style: italic;color:#666" (click)="toggleAll()">{{'lang.selectAll' | translate}}</div>
+            </mat-list-item>
+            <ng-container *ngFor="let basket of baskets;let i = index">
+                <mat-list-item>
+                    <mat-icon mat-list-icon style="display: flex;align-items: center;justify-content: center;">
+                        <mat-checkbox color="primary" [(ngModel)]="basket.selected" *ngIf="!isRedirectedBasket(basket)">
+                        </mat-checkbox>
+                        <button *ngIf="isRedirectedBasket(basket)" mat-button color="warn" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="delBasketRedirection(basket)" [title]="'lang.deleteRedirection' | translate">
+                            <mat-icon color="warn" class="fa fa-times"></mat-icon>
+                        </button>
+                    </mat-icon>
+                    <div mat-line style="cursor: pointer;" (click)="basket.selected=!basket.selected">{{basket.basket_name}} <span class="label label-primary"
+                            style="font-weight:normal">{{basket.group_desc}}</span></div>
+                    <div mat-line *ngIf="isRedirectedBasket(basket)" color="warn"> 
+                        <i class="far fa-paper-plane"></i>&nbsp;{{'lang.redirectedTo' | translate}} {{basket.userToDisplay}}
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </ng-container>
+        </mat-list>
+
+        <div style="position: sticky;bottom: -10px;background: white;">
+            <plugin-autocomplete *ngIf="basketSelected()" [labelPlaceholder]="'lang.redirectBaskets' | translate"
+                [routeDatas]="['/rest/autocomplete/users']" [targetSearchKey]="'idToDisplay'"
+                [subInfoKey]="'descriptionToDisplay'" [disableItems]="[headerService.user.id]"
+                (triggerEvent)="addBasketRedirection($event)" appearance="outline"></plugin-autocomplete>
+        </div>
+    </div>
+    <span class="divider-modal"></span>
+    <div mat-dialog-actions class="actions">
+        <button mat-raised-button mat-button color="primary" [disabled]="loading"
+            (click)="onSubmit()">{{'lang.validate' | translate}}</button>
+        <button mat-raised-button mat-button [disabled]="loading"
+            [mat-dialog-close]="">{{'lang.cancel' | translate}}</button>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<TYPE>
+		<id>Direction</id>
+		<label>Direction</label>
+		<typelevel>all</typelevel>
+		<fusion>true</fusion> <!-- EDISSYUM - NCH01 Rajout des variables de fusions pour remonter jusqu'au type d'entité choisie -->
+	</TYPE>
+	<TYPE>
+		<id>DGA</id>
+		<label>DGA</label>
+		<typelevel>all</typelevel>
+		<fusion>true</fusion> <!-- EDISSYUM - NCH01 Rajout des variables de fusions pour remonter jusqu'au type d'entité choisie -->
+	</TYPE>
+	<TYPE>
+		<id>Service</id>
+		<label>Service</label>
+		<typelevel>all</typelevel>
+		<fusion>false</fusion> <!-- EDISSYUM - NCH01 Rajout des variables de fusions pour remonter jusqu'au type d'entité choisie -->
+	</TYPE>
+	<TYPE>
+		<id>Bureau</id>
+		<label>Bureau</label>
+		<typelevel>all</typelevel>
+		<fusion>false</fusion> <!-- EDISSYUM - NCH01 Rajout des variables de fusions pour remonter jusqu'au type d'entité choisie -->
+	</TYPE>
+</root>

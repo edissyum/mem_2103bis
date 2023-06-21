@@ -1,0 +1,223 @@
+<mat-card id="viewThumbnail" style="display:none;position: fixed;z-index: 2;margin-left: -28px; top: 0;">
+    <img style="max-height: 100vh;" *ngIf="thumbnailUrl !== ''" [src]="thumbnailUrl | secureUrl | async" />
+</mat-card>
+<ng-template #filterTemplate>
+    <app-contact-filter-tool-search #appFilterToolContactSearch [filters]="dataFilters" [isLoadingResults]="isLoadingResults" (filterChanged)="launchSearch()"
+        *ngIf="!hideFilter"></app-contact-filter-tool-search>
+</ng-template>
+<ng-template #toolTemplate>
+    <div class="filtersContent">
+        <div style="flex: 1"></div>
+        <div class="orderTool">
+            <mat-form-field class="basket-order">
+                <mat-icon matPrefix class="fa fa-list"></mat-icon>
+                <mat-select [(ngModel)]="this.listProperties.order" (selectionChange)="updateFilters()"
+                    [disabled]="isLoadingResults || data.length === 0">
+                    <mat-option [value]="column.id" *ngFor="let column of displayColsOrder">
+                        {{'lang.' + column.id | translate}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="ascDescTool">
+            <button [disabled]="this.listProperties.order == '' || isLoadingResults || data.length === 0"
+                [style.opacity]="this.listProperties.order == '' ? '0.2' : '1'" mat-fab
+                [title]="this.listProperties.orderDir == 'DESC' ? ('lang.descOrder' | translate) : ('lang.ascOrder' | translate)"
+                style="color: rgba(0,0,0,0.38);" (click)="changeOrderDir();">
+                <mat-icon *ngIf="this.listProperties.orderDir == 'DESC'" fontSet="fas"
+                    fontIcon="fa-sort-amount-down fa-2x">
+                </mat-icon>
+                <mat-icon *ngIf="this.listProperties.orderDir == 'ASC'" fontSet="fas"
+                    fontIcon="fa-sort-amount-up fa-2x">
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="filterBadges">
+        <span *ngIf="!emptyCriteria()" class="label badge-eraser" (click)="removeCriteria('_ALL')"
+            title="{{'lang.eraseAllFilters' | translate}}"><i class="fas fa-eraser"></i></span>
+        <ng-container *ngFor="let critKey of criteria | keyvalue">
+            <ng-container *ngIf="isArrayType(critKey.value.values) && critKey.value.values.length <= 3">
+                <span class="label badge-search" *ngFor="let val of critKey.value.values"
+                    [title]="contactCriteriaTool.getLabelValue(critKey.key,val)"
+                    (click)="removeCriteria(critKey.key, val)"><i
+                        class="fa {{getField(critKey.key).icon}}"
+                        [title]="getField(critKey.key).label"></i>&nbsp;{{contactCriteriaTool.getLabelValue(critKey.key,val)}}&nbsp;<i
+                        class="fa fa-times-circle"></i></span>
+            </ng-container>
+            <ng-container *ngIf="isArrayType(critKey.value.values) && critKey.value.values.length > 3">
+                <span class="label badge-search"
+                    [title]="contactCriteriaTool.getLabelValues(critKey.key,critKey.value.values)"
+                    (click)="removeCriteria(critKey.key)"><i
+                        class="fa {{getField(critKey.key).icon}}"
+                        [title]="getField(critKey.key).label"></i>&nbsp;{{critKey.value.values.length}}
+                    valeurs&nbsp;<i class="fa fa-times-circle"></i></span>
+            </ng-container>
+            <ng-container *ngIf="!isArrayType(critKey.value.values) && critKey.key !== 'meta'">
+                <span class="label badge-search"
+                    [title]="contactCriteriaTool.getFormatLabel(critKey.key,critKey.value.values)"
+                    (click)="removeCriteria(critKey.key)"><i
+                        class="fa {{getField(critKey.key).icon}}"
+                        [title]="getField(critKey.key).label"></i>&nbsp;{{contactCriteriaTool.getFormatLabel(critKey.key,critKey.value.values)}}&nbsp;<i
+                        class="fa fa-times-circle"></i></span>
+            </ng-container>
+            <ng-container *ngIf="!isArrayType(critKey.value.values) && critKey.key === 'meta'">
+                <span class="label badge-search" [title]="'meta'"
+                    (click)="removeCriteria(critKey.key)">{{critKey.value.values}}&nbsp;<i
+                        class="fa fa-times-circle"></i></span>
+            </ng-container>
+        </ng-container>
+    </div>
+</ng-template>
+<div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+<div class="table-head">
+    <div class="table-head-result">
+        <mat-checkbox *ngIf="!singleSelection" color="primary"
+            [checked]="selectedContacts.length == resultsLength && selectedContacts.length > 0"
+            [indeterminate]="selectedContacts.length > 0 && selectedContacts.length < resultsLength"
+            style="margin: 10px;padding-right: 10px;" title="{{'lang.selectAllResInBasket' | translate}}"
+            (change)="toggleAllRes($event)">
+        </mat-checkbox>&nbsp;{{resultsLength}}
+        {{'lang.records' | translate | ucfirst}}&nbsp;<small *ngIf="selectedContacts.length > 0">-
+            {{selectedContacts.length}}
+            {{'lang.selected' | translate}}</small>
+    </div>
+    <div class="table-head-tool">
+        <span style="position: relative;">
+            <mat-paginator #paginatorResultList [length]="paginatorLength" [pageSizeOptions]="[10, 25, 50, 100, 150]"
+             class="paginatorResultList"></mat-paginator>
+            <app-select-page [paginator]="paginatorResultList"></app-select-page>
+        </span>
+        <span *ngIf="actionMode">
+            <button mat-stroked-button [matMenuTriggerFor]="menu">{{'lang.actionsAlt' | translate}}
+                <mat-icon matSuffix class="fa fa-caret-down"></mat-icon>
+            </button>
+            <span [matMenuTriggerFor]="menu" #menu2 style="position: fixed;"></span>
+            <mat-menu #menu="matMenu" [class]="'actionListMenu'">
+                <div *ngIf="this.selectedContacts.length >= 1"
+                     style="text-align: center;font-size: 10px;color: white;background: #5E952D;padding: 5px;font-weight: bold;">
+                    {{this.selectedContacts.length}} {{'lang.selectedContacts' | translate}}
+                </div>
+                <button mat-menu-item [disabled]="selectedContacts.length === 0" (click)="openContactsGroupModal()">{{'lang.newCorrespondentsGroup' | translate}}</button>
+                <button mat-menu-item [disabled]="selectedContacts.length === 0" [matMenuTriggerFor]="correspondentsGroupMenu" (menuOpened)="getCorrespondentsGroups()">{{'lang.associateToCorrespondentsGroup' | translate}}</button>
+            </mat-menu>
+        </span>
+        <span>
+            <button mat-mini-fab (click)="openContactExport();" [disabled]="selectedContacts.length == 0" title="{{'lang.exportDatas' | translate}}">
+                <mat-icon class="fa fa-file-download"></mat-icon>
+            </button>
+        </span>
+        <div style="text-align: center;padding-left:5px;padding-right:5px;">
+            <span id="menuButtonContext" [matMenuTriggerFor]="menuContactContext" #contextMenuContact style="position: fixed;"
+                  [style.left]="contextMenuPosition.x" [style.top]="contextMenuPosition.y"></span>
+            <mat-menu #menuContact="matMenu">
+                <div style="text-align: center;font-size: 10px;color: white;background: #5E952D;padding: 5px;font-weight: bold;">
+                    {{this.selectedContacts.length}} {{'lang.selectedContacts' | translate}}
+                </div>
+                <button mat-menu-item (click)="openContactsGroupModal()">{{'lang.newCorrespondentsGroup' | translate}}</button>
+                <button mat-menu-item [matMenuTriggerFor]="correspondentsGroupMenu" (menuOpened)="getCorrespondentsGroups()">{{'lang.associateToCorrespondentsGroup' | translate}}</button>
+            </mat-menu>
+            <mat-menu #menuContactContext="matMenu">
+                <div
+                        style="text-align: center;font-size: 10px;color: white;background: #5E952D;padding: 5px;font-weight: bold;">
+                    {{this.selectedContacts.length}} {{'lang.selectedContacts' | translate}}
+                </div>
+                <button mat-menu-item (click)="openContactsGroupModal()">{{'lang.newCorrespondentsGroup' | translate}}</button>
+                <button mat-menu-item [matMenuTriggerFor]="correspondentsGroupMenu" (menuOpened)="getCorrespondentsGroups()">{{'lang.associateToCorrespondentsGroup' | translate}}</button>
+            </mat-menu>
+            <mat-menu #correspondentsGroupMenu="matMenu" [class]="'correspondentsGroupMenuMenu'">
+                <div (click)="$event.stopPropagation();"
+                     style="text-align: center;font-size: 10px;color: white;background: #5E952D;padding: 5px;font-weight: bold;position: sticky;top: 0px;z-index: 1;">
+                    {{'lang.correspondentsGroups' | translate}}
+                </div>
+                <mat-form-field (click)="$event.stopPropagation();" class="smallInput" appearance="outline" floatLabel="never">
+                    <mat-icon color="primary" class="fa fa-search" matPrefix></mat-icon>
+                    <input type="text" [formControl]="filterCorrespondentsGroups" [placeholder]="'Filtrer'"
+                           matInput>
+                </mat-form-field>
+                <ng-container *ngFor="let group of filteredCorrespondentsGroups | async | sortBy : 'label'">
+                    <button mat-menu-item (click)="addContactsToCorrespondentsGroup(group.id)">{{group.label}}
+                    </button>
+                </ng-container>
+                <div *ngIf="correspondentsGroups.length == 0">
+                    <span [title]="'lang.noData' | translate" class="noData">{{'lang.noData' | translate}}</span>
+                </div>
+            </mat-menu>
+        </div>
+    </div>
+</div>
+<div [class.integratedContent]="!standalone">
+    <table cdkDropList id="document-list" [cdkDropListConnectedTo]="listTodrag()" [cdkDropListData]="data"
+        #tableBasketListSort="matSort" mat-table [dataSource]="data" matSort matSortActive="contact_id" matSortDisableClear
+        matSortDirection="asc" style="width:100%;" [cdkDropListDisabled]="dragInit || appService.getViewMode()">
+
+        <ng-container matColumnDef="contact_id">
+            <td mat-cell *matCellDef="let row" style="padding:0;border-top: solid 1px rgba(0, 0, 0, 0.12);">
+                <div *ngIf="!appService.getViewMode() && row.display.length > 0"
+                    class="sub-info column-{{templateColumns}}-list" style="cursor: initial;">
+                    <span class="sub-info-data" [class]="data.cssClasses.join(' ')" *ngFor="let data of row.display"
+                        style="flex:1;white-space: pre;overflow: hidden;text-overflow: ellipsis;
+                                padding-left: 5px;
+                                padding-right: 5px;"
+                        [class.hasEvent]="data.event && data.displayValue !== ('lang.undefined' | translate)">
+                        <ng-container *ngIf="data.icon != ''">
+                            <i class="fa {{data.icon}}" title="{{data.label}}"></i>
+                            &nbsp;
+                        </ng-container>
+                        <ng-container>
+                            <span *ngIf="this.isConfidential(row, data.value)" title="Coordonnées confidentielles">
+                                <span *ngIf="data.value.includes('Date') else defaultValue" [innerHTML]="data.displayValue | timeAgo"></span>
+                                <ng-template #defaultValue>
+                                    Coordonnées confidentielles
+                                </ng-template>
+                            </span>
+                            <span *ngIf="this.isNotConfidential(row, data.value)" title="{{ data.displayTitle }}">
+                                <span *ngIf="data.value.includes('Date') else defaultValue" [innerHTML]="returnHighlighted(data.value, data.displayValue | timeAgo)"></span>
+                                <ng-template #defaultValue>
+                                    <span [innerHTML]="data.displayValue"></span>
+                                </ng-template>
+                            </span>
+                        </ng-container>
+                    </span>
+                </div>
+                <div class="main-info" [class.selected-data]="row.checked">
+                    <span style="width:50px;">
+                        <mat-checkbox color="primary" [checked]="row.checked" (change)="toggleRes($event,row)" [disabled]="singleSelection && !row.hasDocument"
+                            (click)="$event.stopPropagation();">
+                        </mat-checkbox>
+                    </span>
+                    <span style="cursor:pointer;" [class.highlightResultIcon]="row.inStatus" class="main-info-status"
+                        (click)="launch(row);">
+                        <span *ngIf="row.isPrivate" class="watermark" title="Contact confidentiel">
+                            <i class="fas fa-mask"></i>
+                        </span>
+                    </span>
+                    <span class="main-info-data" (click)="launch(row);" style="font-weight:bold;flex:1;cursor:pointer;margin-left: 50px"
+                          [class.undefined]="row.subject == ('lang.undefined' | translate)"
+                          title="{{row.subject_title}}">
+                        <span *ngIf="row.lastname && row.firstname"
+                              [innerHTML]="row.lastname + ' ' + row.firstname"></span>
+                        <span *ngIf="row.lastname && !row.firstname"
+                              [innerHTML]="row.lastname + ' '"></span>
+                        <span *ngIf="!row.lastname && row.firstname"
+                              [innerHTML]="row.firstname + ' '"></span>
+                        <span [class.extra-min-font]="row.lastname || row.firstname" class="extra" [innerHTML]="row.company"></span>
+                    </span>
+
+                    <span *ngIf="sidenavRight !== undefined" class="main-info-action">
+                        <button mat-icon-button *ngIf="!appService.getViewMode()"
+                            title="{{'lang.linkDetails' | translate}}" [class.highlightResult]="row.inDocument"
+                            [routerLink]="'/administration/contacts/list/' + row.contact_id">
+                            <mat-icon fontSet="fas" fontIcon="fa-info-circle fa-2x"></mat-icon>
+                        </button>
+                    </span>
+                </div>
+            </td>
+        </ng-container>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (contextmenu)="open($event,row);"
+            class="rowData" style="cursor: pointer;">
+        </tr>
+    </table>
+</div>

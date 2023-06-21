@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- // EDISSYUM - AMO01 - PJ_LINKS : Script Purge Nextcloud -->
+<ROOT>
+    <!-- Examples : 30 =~ 1 month | 60 =~ 2 month | 90 =~ 3 month | 120 =~ 4 month | 150 =~ 5 month | 180 =~ 6 month | 210 =~ 7 month | 240 =~ 8 month | 270 =~ 9 month | 300 =~ 10 month | 330 =~ 11 month | 360 =~ 1 Year -->
+    <daysToExpire>120</daysToExpire>
+</ROOT>

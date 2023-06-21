@@ -1,0 +1,97 @@
+<div class="mat-dialog-content-container">
+    <h1 mat-dialog-title>
+        <span style="flex: 1;">
+            {{'lang.aboutUs' | translate}}
+        </span>
+        <button *ngIf="!loading" [title]="'lang.close' | translate" mat-icon-button (click)="dialogRef.close();">
+            <mat-icon class="fa fa-times"></mat-icon>
+        </button>
+    </h1>
+    <div *ngIf="loading" style="display:flex;height:100%;">
+        <mat-spinner style="margin:auto;"></mat-spinner>
+    </div>
+    <mat-card mat-dialog-content *ngIf="!loading" class="card-app-content" style="min-height: 90% !important;">
+        <div class="col-sm-8">
+            <!-- EDISSYUM - NCH01 Rajout de la spécificité MEM dans l'affichage des versions | remplacement du h3 et du em-->
+            <h3>Maarch Courrier version MEM <b>{{applicationVersion}}</b> </h3>
+            <em>Version : <a target="blank"
+                             href="https://gitlab.com/edissyum/mem/21.03/-/tags/{{applicationVersion}}">Lien vers le github</a></em>
+            <!-- END EDISSYUM - NCH01 -->
+            <hr />
+            <p><em>Copyright &copy; 2008-{{currentYear}} Maarch SAS {{'lang.groupeCompany' | translate}}</em></p>
+            <p>{{'lang.maarchLicence' | translate}}
+                <a target="blank" href="http://www.gnu.org/licenses/gpl-3.0-standalone.html">licence GNU GPLv3</a>.</p>
+            <div>
+                <ul>
+                    <li>{{'lang.officialWebsite' | translate}} : <a target="blank" href="https://maarch.com/">https://maarch.com</a></li>
+                    <li>{{'lang.community' | translate}} : <a target="blank"
+                                                href="https://community.maarch.org/">https://community.maarch.org</a></li>
+                    <li>{{'lang.documentation' | translate}} : <a target="blank"
+                                                    href="https://docs.maarch.org/">https://docs.maarch.org</a></li>
+                </ul>
+            </div>
+            <!-- EDISSYUM - NCH01 Rajout de la spécificité MEM dans l'affichage des versions -->
+            <p style="font-size: 20px;color: red;text-align: justify;">
+                Maarch Courrier version MEM est une version modifiée.<br>
+                Pour le respect des droits préexistants, la distribution d’une copie modifiée du logiciel Maarch courrier par la société Edissyum Consulting passe par le respect des termes de la licence qui l’accompagne : la license GNU GPLv3.
+            </p>
+            <!-- END EDISSYUM - NCH01 -->
+            <p>&nbsp;</p>
+            <h3>{{'lang.externalComponents' | translate}}</h3>
+            <hr />
+            <em>{{'lang.thanksToExtDev' | translate}}</em>
+            <p>&nbsp;</p>
+            <ul>
+                <li><a target="blank" href="https://angular.io/">Angular</a></li>
+                <li><a target="blank" href="https://material.angular.io/">Angular Material</a></li>
+                <li><a target="blank" href="http://getbootstrap.com/">Bootstrap</a></li>
+                <li><a target="blank" href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a></li>
+                <li><a target="blank" href="http://www.fpdf.org/">Fpdf</a></li>
+                <li><a target="blank" href="http://www.setasign.de/products/pdf-php-solutions/fpdi/">fpdi</a></li>
+                <li><a target="blank" href="https://jquery.com/">Jquery</a></li>
+                <li><a target="blank" href="https://github.com/running-coder/jquery-typeahead">Jquery Typeahead</a></li>
+                <li><a target="blank" href="http://logging.apache.org/log4php/">log4php</a></li>
+                <li><a target="blank" href="http://chir.ag/tech/download/pdfb">Pdfb</a></li>
+                <li><a target="blank" href="http://www.foolabs.com/xpdf/">Pdftotext</a></li>
+                <li><a target="blank" href="http://www.tinybutstrong.com/">Tiny But Strong</a></li>
+                <li><a target="blank" href="http://www.tinymce.com/">TinyMCE</a></li>
+                <li><a target="blank" href="http://framework.zend.com/">Zend Lucene Search</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-4">
+            <h3>Crédits</h3>
+            <hr />
+            <ul>
+                <li>Florian AZIZIAN, Damien BUREL, Bruno CARLIN, Carole COTIN, Prosper DE LAURE, Driss DEMIRAY, Gaël DE
+                    VILLEBLANCHE, Emmanuel DILLARD, Mathieu DONZEL, Jean-Louis ERCOLANI, Claire FIGUERAS, Laurent
+                    GIOVANNONI,
+                    Guillaume HEURTIER, Hamza HRAMCHI, Kader KANE, Yves-Christian KPAKPO, Alexandre MORIN, Sébastien
+                    NANABONDJA, Fodé NDIAYE, Cédric NDOUMBA, Alex ORLUC, Henri QUENEAU, Alexis RAGOT, Quentin RIBAC, Alexandre STEFANOVIC, Serge
+                    THIERRY-MIEG,
+                    Cyril VAZQUEZ, Arnaud VEBER, Loic VINET</li>
+                <br>
+                <li><em>{{'lang.thanksToCommunity' | translate}}</em></li>
+            </ul>
+            <p>&nbsp;</p>
+            <div class="img_credits_maarch_box">
+                <mat-icon svgIcon="maarchBox" style="width: 100%;height: auto;"></mat-icon>
+            </div>
+            <!-- EDISSYUM - NCH01 Rajout de la spécificité MEM dans l'affichage des versions -->
+            <ul>
+                <li>
+                    Nathan CHEVAL, Pierre-Yvon BEZERT, Oussama BRICH, Essaid MEGHELLET, Arthur MONDON, Guillaume JEUDY, Ludovic SIRVENT,
+                    Malvina GONTARD, Darlène GUILLARD, Ophélie BOUCQUEMONT, Allan ANTOINE, Cédric ROUIRE, Trinité ROUIRE, Said BELAOUNI
+                </li>
+            </ul>
+            <br>
+            <br>
+            <div class="img_credits_maarch_box">
+                <img src="assets/logo_edissyum.png" />
+            </div>
+            <br>
+            <br>
+            <!-- END EDISSYUM - NCH01 -->
+        </div>
+    </mat-card>
+</div>

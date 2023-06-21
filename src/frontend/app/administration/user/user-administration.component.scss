@@ -1,0 +1,47 @@
+.avatar {
+	text-decoration:none;
+	background:var(--maarch-color-primary);
+	color:white;
+	width:100px;
+	height:100px;
+	border-radius:5px;
+	display:block;
+    overflow:hidden;
+    margin: 5px;
+}
+.form-group{
+    margin:0px;
+}
+
+.vertical-divider{
+	height: 80%;
+}
+
+.avatarAccount {
+    border: solid 3px var(--maarch-color-secondary);
+    height: 45px !important;
+    width: 45px !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.accountInfo {
+    margin-left: 20px !important;
+    display: flex !important;
+
+    span {
+        flex: 1;
+        align-items: center;
+        display: flex;
+    }
+}
+
+.mat-list-item-disabled {
+    cursor: not-allowed !important;
+    background-color: initial;
+
+    .mat-line, mat-icon {
+        opacity: 0.5;
+    }
+}
